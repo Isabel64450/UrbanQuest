@@ -1,0 +1,228 @@
+@import "tailwindcss";
+
+
+/* ============================================================
+   DESIGN TOKENS — UrbanQuest
+   Source de vérité runtime (miroir de design-system/urbanquest/).
+   ============================================================ */
+
+@layer base {
+  :root {
+    /* --- Primitives palette Parchemin (remplace Slate, thème player) --- */
+    --prim-parchemin-50:  #fff6dd;
+    --prim-parchemin-100: #f4e9d1;
+    --prim-parchemin-200: #dbd0ba;
+    --prim-parchemin-300: #c2b7a2;
+    --prim-parchemin-500: #8f8573;
+    --prim-parchemin-600: #766b5c;
+    --prim-parchemin-800: #43392d;
+    --prim-parchemin-900: #2a2015;
+
+    /* --- Primitives palette Cuivre (remplace Indigo, accent player) --- */
+    --prim-cuivre-400: #dc8638;
+    --prim-cuivre-500: #b5651d;
+    --prim-cuivre-600: #935319;
+
+    /* --- Primitives palette Or (accent secondaire player, nouveau) --- */
+    --prim-or-500: #c9a227;
+    --prim-or-600: #9f8121;
+
+    /* --- Primitives palette Vert profond (succès player, nouveau) --- */
+    --prim-vert-500: #3e5c46;
+
+    /* --- Primitives palette Rouille (erreur player, nouveau) --- */
+    --prim-rouille-500: #8c3b2e;
+
+    /* --- Typographie (thème player uniquement) ---
+       Chargement des fonts (Google Fonts ou self-host) à ajouter
+       dans templates/base.html.twig — non fait dans cette passe. */
+    --prim-font-heading: 'Oswald', ui-sans-serif, system-ui, sans-serif;
+    --prim-font-body:    'Work Sans', ui-sans-serif, system-ui, sans-serif;
+
+    /* --- Primitives palette Emerald (réservée admin) --- */
+    --prim-emerald-300: #6ee7b7;
+    --prim-emerald-400: #34d399;
+    --prim-emerald-500: #10b981;
+
+    /* --- Primitives palette Red (réservée admin) --- */
+    --prim-red-300: #fca5a5;
+    --prim-red-400: #f87171;
+    --prim-red-500: #ef4444;
+    --prim-red-900: #7f1d1d;
+
+    /* --- Primitives palette Stone --- */
+    --prim-stone-200: #e7e5e4;
+    --prim-stone-300: #d6d3d1;
+    --prim-stone-400: #a8a29e;
+    --prim-stone-500: #78716c;
+    --prim-stone-600: #57534e;
+    --prim-stone-700: #44403c;
+    --prim-stone-800: #292524;
+    --prim-stone-900: #1c1917;
+    --prim-stone-950: #0c0a09;
+
+    /* --- Primitives palette Amber --- */
+    --prim-amber-400: #fbbf24;
+    --prim-amber-500: #f59e0b;
+    --prim-amber-600: #d97706;
+    --prim-amber-900: #78350f;
+
+    /* --- Semantic Player (thème parchemin / cuivre) --- */
+    --player-surface-base:   var(--prim-parchemin-100);
+    --player-surface-card:   var(--prim-parchemin-50);
+    --player-surface-input:  var(--prim-parchemin-100);
+    --player-border-default: var(--prim-parchemin-300);
+    --player-border-subtle:  var(--prim-parchemin-200);
+    --player-border-strong:  var(--prim-parchemin-500);
+    --player-text-base:      var(--prim-parchemin-800);
+    --player-text-heading:   var(--prim-parchemin-900);
+    --player-text-muted:     var(--prim-parchemin-600);
+    --player-text-subtle:    var(--prim-parchemin-500);
+    --player-text-accent:    var(--prim-or-600);
+    --player-primary:        var(--prim-cuivre-500);
+    --player-primary-hover:  var(--prim-cuivre-400);
+    --player-primary-deep:   var(--prim-cuivre-600);
+    --player-primary-shadow: rgba(181, 101, 29, 0.3);
+    --player-focus-ring:     rgba(181, 101, 29, 0.4);
+    --player-success-text:   var(--prim-vert-500);
+    --player-success-bg:     rgba(62, 92, 70, 0.10);
+    --player-success-border: rgba(62, 92, 70, 0.40);
+    --player-danger-text:    var(--prim-rouille-500);
+    --player-danger-bg:      rgba(140, 59, 46, 0.10);
+    --player-danger-border:  rgba(140, 59, 46, 0.40);
+    --player-font-heading:   var(--prim-font-heading);
+    --player-font-body:      var(--prim-font-body);
+
+    /* --- Semantic Admin --- */
+    --admin-surface-base:      var(--prim-stone-950);
+    --admin-surface-card:      var(--prim-stone-900);
+    --admin-border-default:    var(--prim-stone-800);
+    --admin-border-subtle:     var(--prim-stone-700);
+    --admin-text-heading:      #ffffff;
+    --admin-text-muted:        var(--prim-stone-400);
+    --admin-text-subtle:       var(--prim-stone-300);
+    --admin-text-accent:       var(--prim-amber-500);
+    --admin-primary:           var(--prim-amber-600);
+    --admin-primary-hover:     var(--prim-amber-500);
+    --admin-primary-shadow:    rgba(217, 119, 6, 0.30);
+    --admin-action-text:       var(--prim-stone-200);
+    --admin-action-border:     var(--prim-stone-700);
+    --admin-action-hover-text: var(--prim-amber-400);
+  }
+}
+
+/* ============================================================
+   COMPONENT CLASSES — UrbanQuest
+   Patterns récurrents extraits des templates.
+   Usage : classe Tailwind → classe composant
+   ============================================================ */
+
+@layer components {
+
+  /* ── Card (player) ────────────────────────────────────────
+     Thème parchemin : border-[#c2b7a2] bg-[#fff6dd]
+                p-8 shadow-xl shadow-black/10                   */
+  .card {
+    @apply rounded-2xl border border-[#c2b7a2] bg-[#fff6dd] shadow-xl shadow-black/10;
+  }
+
+  /* Variante home / fin de parcours (dégradé cuivre) */
+  .card-gradient {
+    @apply rounded-2xl border border-[#c2b7a2] bg-gradient-to-br
+           from-[#935319]/20 via-[#fff6dd] to-[#f4e9d1]
+           shadow-xl shadow-black/10;
+  }
+
+  /* ── Bouton primaire (player) ─────────────────────────────
+     Thème cuivre : rounded-xl bg-[#b5651d] px-6 py-3 text-base
+                font-semibold text-white shadow-lg
+                shadow-[#b5651d]/30 transition
+                hover:bg-[#dc8638] active:scale-[0.98]        */
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-xl
+           bg-[#b5651d] px-6 py-3 text-base font-semibold text-white
+           shadow-lg shadow-[#b5651d]/30 transition
+           hover:bg-[#dc8638] active:scale-[0.98];
+  }
+
+  /* ── Bouton ghost / secondaire (player) ───────────────────
+     Thème parchemin : rounded-xl border border-[#dbd0ba] px-6 py-3
+                text-base font-semibold text-[#8f8573] transition
+                hover:border-[#8f8573] hover:text-[#2a2015]
+                active:scale-[0.98]                            */
+  .btn-ghost {
+    @apply inline-flex items-center justify-center rounded-xl
+           border border-[#dbd0ba] px-6 py-3 text-base font-semibold
+           text-[#8f8573] transition
+           hover:border-[#8f8573] hover:text-[#2a2015] active:scale-[0.98];
+  }
+
+  /* ── Eyebrow / étiquette (player) ────────────────────────
+     Thème or : text-sm font-semibold uppercase
+                tracking-widest text-[#9f8121], police Oswald  */
+  .eyebrow {
+    @apply text-sm font-semibold uppercase tracking-widest text-[#9f8121];
+    font-family: var(--player-font-heading);
+  }
+
+  /* ── Input texte (player) ────────────────────────────────
+     Thème parchemin : w-full rounded-xl border border-[#dbd0ba]
+                bg-[#f4e9d1] px-4 py-3 text-[#2a2015]
+                focus:border-[#b5651d] focus:outline-none
+                focus:ring-2 focus:ring-[#b5651d]/40          */
+  .field-input {
+    @apply w-full rounded-xl border border-[#dbd0ba] bg-[#f4e9d1]
+           px-4 py-3 text-[#2a2015]
+           focus:border-[#b5651d] focus:outline-none
+           focus:ring-2 focus:ring-[#b5651d]/40;
+  }
+
+  /* ── Alerts / Flash (player) ──────────────────────────────
+     Remplace les classes inline dans base.html.twig
+     Thème vert profond / rouille (remplace emerald / red)    */
+  .alert-success {
+    @apply rounded-xl border border-[#3e5c46]/40 bg-[#3e5c46]/10
+           px-4 py-3 text-sm font-medium text-[#3e5c46];
+  }
+  .alert-error {
+    @apply rounded-xl border border-[#8c3b2e]/40 bg-[#8c3b2e]/10
+           px-4 py-3 text-sm font-medium text-[#8c3b2e];
+  }
+
+  /* ── Badges statut (admin + player) ─────────────────────
+     Publié : badge-published / Brouillon : badge-draft
+     Archivé : badge-archived                               */
+  .badge-published {
+    @apply rounded-full bg-emerald-500/10 px-2 py-0.5
+           text-xs font-medium text-emerald-400;
+  }
+  .badge-draft {
+    @apply rounded-full bg-stone-500/10 px-2 py-0.5
+           text-xs font-medium text-stone-400;
+  }
+  .badge-archived {
+    @apply rounded-full border border-stone-600 px-2 py-0.5
+           text-xs text-stone-400;
+  }
+
+  /* ── Boutons admin ───────────────────────────────────────
+     admin-btn-primary : CTA principal (ex. "+ Nouveau parcours")
+     admin-btn-action  : action ghost (Éditer, Archiver)
+     admin-btn-danger  : action destructrice (Supprimer)       */
+  .admin-btn-primary {
+    @apply inline-flex items-center justify-center rounded-xl
+           bg-amber-600 px-4 py-2 text-sm font-semibold text-white
+           shadow-lg shadow-amber-600/30 transition
+           hover:bg-amber-500 active:scale-[0.98];
+  }
+  .admin-btn-action {
+    @apply rounded-lg border border-stone-700 px-3 py-1
+           text-xs font-medium text-stone-200
+           hover:border-amber-500 hover:text-amber-400;
+  }
+  .admin-btn-danger {
+    @apply rounded-lg border border-red-900/60 px-3 py-1
+           text-xs font-medium text-red-400
+           hover:border-red-500 hover:bg-red-500/10;
+  }
+}

@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Escape Game Urbain{% endblock %}
+
+{% block body %}
+    <div class="flex min-h-[calc(100vh-8rem)] flex-col items-center justify-center gap-8 px-6 py-12 text-center">
+        <div class="w-full max-w-sm rounded-2xl border border-[#c2b7a2] bg-gradient-to-br from-[#935319]/20 via-[#fff6dd] to-[#f4e9d1] p-8 shadow-xl shadow-black/10">
+            <p class="text-sm font-semibold uppercase tracking-widest text-[#9f8121]" style="font-family: var(--player-font-heading);">UrbanQuest</p>
+            <h1 class="mt-2 text-3xl font-extrabold text-[#2a2015]" style="font-family: var(--player-font-heading);">Escape Game Urbain</h1>
+            <p class="mt-4 text-sm text-[#766b5c]">
+                Explorez la ville, résolvez les énigmes et validez chaque étape en vous
+                rendant sur place. La progression et le score se jouent en temps réel.
+            </p>
+
+            <a
+                href="#"
+                class="mt-8 inline-flex w-full items-center justify-center rounded-xl bg-[#b5651d] px-6 py-3 text-base font-semibold text-white shadow-lg shadow-[#b5651d]/30 transition hover:bg-[#dc8638] active:scale-[0.98]"
+            >
+                Commencer
+            </a>
+        </div>
+    </div>
+{% endblock %}

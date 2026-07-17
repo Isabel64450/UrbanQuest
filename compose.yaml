@@ -1,0 +1,23 @@
+
+services:
+  database:
+    image: mysql:8
+    environment:
+      MYSQL_DATABASE: urbanQuest
+      MYSQL_USER: urbanquest
+      MYSQL_PASSWORD: urbanquest
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - database_data:/var/lib/mysql
+
+  adminer:
+    image: adminer
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+
+volumes:
+  database_data:

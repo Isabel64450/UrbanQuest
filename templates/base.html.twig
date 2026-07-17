@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fr" data-turbo="true">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+        <meta name="theme-color" content="#f4e9d1">
+        <title>{% block title %}Escape Game Urbain{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>🗺️</text></svg>">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Work+Sans:wght@400;500;600&display=swap">
+
+        {% block stylesheets %}
+             <link rel="stylesheet" href="{{ asset('styles/app.css') }}"> 
+        {% endblock %}
+
+        {% block javascripts %}
+           {#  {% block importmap %}{{ importmap('app') }}{% endblock %} #}
+        {% endblock %}
+
+        {% set frankenphpHotReload = app.request.server.get('FRANKENPHP_HOT_RELOAD') %}
+        {% if frankenphpHotReload %}
+        <meta name="frankenphp-hot-reload:url" content="{{ frankenphpHotReload }}">
+        <script src="https://cdn.jsdelivr.net/npm/idiomorph"></script>
+        <script src="https://cdn.jsdelivr.net/npm/frankenphp-hot-reload/+esm" type="module"></script>
+        {% endif %}
+    </head>
+    <body class="min-h-screen flex flex-col bg-[#f4e9d1] text-[#43392d]" style="font-family: var(--player-font-body);">
+        <header class="shrink-0 border-b border-[#c2b7a2] bg-[#fff6dd]/80 backdrop-blur">
+            <div class="mx-auto flex max-w-screen-sm items-center justify-between px-4 py-3">
+                <a href="{{ path('app_home') }}" class="text-lg font-bold tracking-tight text-[#2a2015]">
+                    UrbanQuest
+                </a>
+            </div>
+        </header>
+
+        <main class="flex-1">
+            {% for type, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="mx-auto mt-4 max-w-screen-sm px-4">
+                        <p class="rounded-xl border px-4 py-3 text-sm font-medium {{ type == 'error' ? 'border-[#8c3b2e]/40 bg-[#8c3b2e]/10 text-[#8c3b2e]' : 'border-[#3e5c46]/40 bg-[#3e5c46]/10 text-[#3e5c46]' }}">
+                            {{ message }}
+                        </p>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+
+            {% block body %}{% endblock %}
+        </main>
+
+        <footer class="shrink-0 border-t border-[#c2b7a2] px-4 py-3 text-center text-xs text-[#8f8573]">
+            UrbanQuest &mdash; Session 1/8
+        </footer>
+    </body>
+</html>
