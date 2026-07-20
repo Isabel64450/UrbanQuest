@@ -106,12 +106,12 @@ class Etape
         return $this;
     }
 
-    public function getLatitud(): ?string
+    public function getLatitude(): ?string
     {
         return $this->latitude;
     }
 
-    public function setLatitud(string $latitud): static
+    public function setLatitude(string $latitud): static
     {
         $this->latitude = $latitud;
 

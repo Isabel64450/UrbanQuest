@@ -4,16 +4,12 @@ namespace App\Entity;
 
 use App\Repository\JoueurRepository;
 use Doctrine\ORM\Mapping as ORM;
-#[ORM\Table(
-    uniqueConstraints: [
-        new ORM\UniqueConstraint(
-            name: 'uniq_equipe_pseudo',
-            columns: ['equipe_id', 'pseudo']
-        )
-    ]
-)]
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+
 #[ORM\Entity(repositoryClass: JoueurRepository::class)]
-class Joueur
+#[ORM\UniqueConstraint(name: 'uniq_equipe_pseudo', columns: ['equipe_id', 'pseudo'])]
+class Joueur implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -21,14 +17,14 @@ class Joueur
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $pseudo = null;
+    private ?string $pseudo;
 
     #[ORM\Column(length: 255)]
-    private ?string $codePin = null;
+    private ?string $codePin;
 
     #[ORM\ManyToOne(inversedBy: 'joueurs')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Equipe $equipe = null;
+    private ?Equipe $equipe;
 
     public function getId(): ?int
     {
@@ -70,4 +66,22 @@ class Joueur
 
         return $this;
     }
+ public function getPassword(): string
+    {
+        return $this->codePin;
+    }
+public function getUserIdentifier(): string
+{
+    return sprintf('%s:%s', $this->equipe->getCodeAcces(), $this->pseudo);
+}
+
+public function getRoles(): array
+{
+    return ['ROLE_JOUEUR'];
+}
+
+public function eraseCredentials(): void
+{
+}
+
 }
