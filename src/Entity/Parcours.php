@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ParcoursRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -31,6 +33,24 @@ class Parcours
 
     #[ORM\Column]
     private ?bool $estArchive = null;
+
+    /**
+     * @var Collection<int, Etape>
+     */
+    #[ORM\OneToMany(targetEntity: Etape::class, mappedBy: 'parcours', orphanRemoval: true)]
+    private Collection $etapes;
+
+    /**
+     * @var Collection<int, Equipe>
+     */
+    #[ORM\OneToMany(targetEntity: Equipe::class, mappedBy: 'parcours', orphanRemoval: true)]
+    private Collection $equipes;
+
+    public function __construct()
+    {
+        $this->etapes = new ArrayCollection();
+        $this->equipes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -105,6 +125,66 @@ class Parcours
     public function setEstArchive(bool $estArchive): static
     {
         $this->estArchive = $estArchive;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Etape>
+     */
+    public function getEtapes(): Collection
+    {
+        return $this->etapes;
+    }
+
+    public function addEtape(Etape $etape): static
+    {
+        if (!$this->etapes->contains($etape)) {
+            $this->etapes->add($etape);
+            $etape->setParcours($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEtape(Etape $etape): static
+    {
+        if ($this->etapes->removeElement($etape)) {
+            // set the owning side to null (unless already changed)
+            if ($etape->getParcours() === $this) {
+                $etape->setParcours(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Equipe>
+     */
+    public function getEquipes(): Collection
+    {
+        return $this->equipes;
+    }
+
+    public function addEquipe(Equipe $equipe): static
+    {
+        if (!$this->equipes->contains($equipe)) {
+            $this->equipes->add($equipe);
+            $equipe->setParcours($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEquipe(Equipe $equipe): static
+    {
+        if ($this->equipes->removeElement($equipe)) {
+            // set the owning side to null (unless already changed)
+            if ($equipe->getParcours() === $this) {
+                $equipe->setParcours(null);
+            }
+        }
 
         return $this;
     }
