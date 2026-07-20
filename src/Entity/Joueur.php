@@ -4,7 +4,14 @@ namespace App\Entity;
 
 use App\Repository\JoueurRepository;
 use Doctrine\ORM\Mapping as ORM;
-
+#[ORM\Table(
+    uniqueConstraints: [
+        new ORM\UniqueConstraint(
+            name: 'uniq_equipe_pseudo',
+            columns: ['equipe_id', 'pseudo']
+        )
+    ]
+)]
 #[ORM\Entity(repositoryClass: JoueurRepository::class)]
 class Joueur
 {

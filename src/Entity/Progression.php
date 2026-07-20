@@ -7,6 +7,15 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProgressionRepository::class)]
+#[ORM\Table(
+    uniqueConstraints: [
+        new ORM\UniqueConstraint(
+            name: 'uniq_equipe_etape',
+            columns: ['equipe_id', 'etape_id']
+        )
+    ]
+)]
+
 class Progression
 {
     #[ORM\Id]
@@ -34,6 +43,11 @@ class Progression
     #[ORM\JoinColumn(nullable: false)]
     private ?Etape $etape = null;
 
+
+    public function __construct()
+    {
+    $this->dateValidation = new \DateTimeImmutable();
+    }
     public function getId(): ?int
     {
         return $this->id;

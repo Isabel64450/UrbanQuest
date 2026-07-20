@@ -9,6 +9,10 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EtapeRepository::class)]
+  #[ORM\UniqueConstraint(
+    name: 'uniq_parcours_ordre',
+    columns: ['parcours_id', 'ordre']
+)]
 class Etape
 {
     #[ORM\Id]
@@ -26,16 +30,16 @@ class Etape
     private ?int $ordre = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 7)]
-    private ?string $latitud = null;
+    private ?string $latitude = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 7)]
     private ?string $longitude = null;
 
-    #[ORM\Column]
-    private ?int $rayonValidationMetres = null;
+    #[ORM\Column(options:['default'=> 20])]
+    private ?int $rayonValidationMetres = 20;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $responseAttendue = null;
+    private ?string $reponseAttendue = null;
 
     #[ORM\Column]
     private ?int $points = null;
@@ -43,7 +47,7 @@ class Etape
     #[ORM\Column]
     private ?int $nombreEchecsAvantIndice = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, nullable:true)]
     private ?string $indice = null;
 
     #[ORM\ManyToOne(inversedBy: 'etapes')]
@@ -104,12 +108,12 @@ class Etape
 
     public function getLatitud(): ?string
     {
-        return $this->latitud;
+        return $this->latitude;
     }
 
     public function setLatitud(string $latitud): static
     {
-        $this->latitud = $latitud;
+        $this->latitude = $latitud;
 
         return $this;
     }
@@ -140,12 +144,12 @@ class Etape
 
     public function getResponseAttendue(): ?string
     {
-        return $this->responseAttendue;
+        return $this->reponseAttendue;
     }
 
     public function setResponseAttendue(?string $responseAttendue): static
     {
-        $this->responseAttendue = $responseAttendue;
+        $this->reponseAttendue = $responseAttendue;
 
         return $this;
     }
@@ -179,7 +183,7 @@ class Etape
         return $this->indice;
     }
 
-    public function setIndice(string $indice): static
+    public function setIndice(?string $indice): static
     {
         $this->indice = $indice;
 

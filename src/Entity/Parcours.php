@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ParcoursRepository;
+use App\Enum\StatutParcours;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -25,8 +26,8 @@ class Parcours
     #[ORM\Column(length: 255)]
     private ?string $ville = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $status = null;
+    #[ORM\Column(enumType: StatutParcours::class)]
+    private StatutParcours $statut = StatutParcours::Brouillon;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $dateCreation = null;
@@ -93,14 +94,14 @@ class Parcours
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function getStatut(): StatutParcours
     {
-        return $this->status;
+        return $this->statut;
     }
 
-    public function setStatus(string $status): static
+    public function setStatut(StatutParcours $statut): static
     {
-        $this->status = $status;
+        $this->statut = $statut;
 
         return $this;
     }
