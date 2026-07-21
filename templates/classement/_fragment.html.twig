@@ -1,0 +1,45 @@
+{# Fragment réutilisé pour le rendu initial de /classement ET pour les
+   republications Mercure (voir MercureNotificationService). `equipeConnectee`
+   n'est fournie qu'au rendu initial (personnalisé pour le visiteur) : une
+   mise à jour Mercure est diffusée identique à tous les abonnés du topic
+   public "classement", donc sans mise en évidence d'une équipe précise —
+   celle-ci ne réapparaît qu'au prochain chargement complet de la page. #}
+{% set equipeConnecteeId = equipeConnectee is defined and equipeConnectee is not null ? equipeConnectee.id : null %}
+
+{% if classement is empty %}
+    <div class="rounded-2xl border border-[#c2b7a2] bg-[#fff6dd] p-8 text-center shadow-xl shadow-black/10">
+        <p class="text-sm text-[#766b5c]">Aucune équipe n'a encore validé d'étape.</p>
+    </div>
+{% else %}
+    <ul class="flex flex-col gap-3">
+        {% for ligne in classement %}
+            {% set estEquipeConnectee = equipeConnecteeId is not null and ligne.equipe.id == equipeConnecteeId %}
+            <li
+                class="flex items-center gap-4 rounded-2xl border p-4 shadow-lg shadow-black/10 {{ estEquipeConnectee ? 'border-[#b5651d] bg-[#b5651d]/10' : 'border-[#c2b7a2] bg-[#fff6dd]' }}"
+            >
+                <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold {{ ligne.rang == 1 ? 'bg-[#c9a227] text-[#2a2015]' : (estEquipeConnectee ? 'bg-[#b5651d] text-white' : 'bg-[#dbd0ba] text-[#8f8573]') }}">
+                    {{ ligne.rang }}
+                </div>
+
+                <div class="min-w-0 flex-1">
+                    <p class="truncate text-base font-semibold {{ estEquipeConnectee ? 'text-[#2a2015]' : 'text-[#43392d]' }}">
+                        {{ ligne.equipe.nom }}
+                        {% if estEquipeConnectee %}
+                            <span class="ml-1 text-xs font-medium text-[#9f8121]">(vous)</span>
+                        {% endif %}
+                    </p>
+                    <p class="text-xs text-[#8f8573]">
+                        Dernière validation {{ ligne.derniereValidation|date('d/m/Y à H:i') }}
+                    </p>
+                </div>
+
+                <div class="shrink-0 text-right">
+                    <p class="text-lg font-extrabold {{ estEquipeConnectee ? 'text-[#9f8121]' : 'text-[#2a2015]' }}">
+                        {{ ligne.score }}
+                    </p>
+                    <p class="text-xs text-[#8f8573]">points</p>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}

@@ -1,0 +1,7 @@
+{# Corps publié sur le topic Mercure privé "equipe/{id}" : un Turbo Stream
+   "update" qui remplace intégralement le contenu de #dashboard-score. #}
+<turbo-stream action="update" target="dashboard-score">
+    <template>
+        {% include 'equipe/_dashboard_score.html.twig' with { classementEquipe: classementEquipe } only %}
+    </template>
+</turbo-stream>

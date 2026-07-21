@@ -1,20 +1,30 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ClassementController!{% endblock %}
+{% block title %}Classement — UrbanQuest{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="mx-auto flex max-w-screen-sm flex-col gap-6 px-4 py-8">
+        <div class="text-center">
+            <p class="text-sm font-semibold uppercase tracking-widest text-[#9f8121]" style="font-family: var(--player-font-heading);">Classement</p>
+            <h1 class="mt-2 text-2xl font-extrabold text-[#2a2015]" style="font-family: var(--player-font-heading);">Toutes les équipes</h1>
+        </div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+        <div id="classement-fragment" {{ turbo_stream_listen('classement') }}>
+            {% include 'classement/_fragment.html.twig' %}
+        </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/wamp64/www/urbanQuest/src/Controller/ClassementController.php</code></li>
-        <li>Your template at <code>C:/wamp64/www/urbanQuest/templates/classement/index.html.twig</code></li>
-    </ul>
-</div>
+        <div>
+            <p class="mb-2 text-sm font-semibold uppercase tracking-widest text-[#9f8121]" style="font-family: var(--player-font-heading);">Activité récente</p>
+            <div id="activite-fragment" {{ turbo_stream_listen('activite') }}>
+                {% include 'activite/_fragment.html.twig' %}
+            </div>
+        </div>
+
+        <a
+            href="{{ path('app_equipe_dashboard') }}"
+            class="mt-2 inline-flex w-full items-center justify-center rounded-xl border border-[#dbd0ba] px-6 py-3 text-base font-semibold text-[#8f8573] transition hover:border-[#8f8573] hover:text-[#2a2015] active:scale-[0.98]"
+        >
+            Retour au tableau de bord
+        </a>
+    </div>
 {% endblock %}

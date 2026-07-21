@@ -1,0 +1,21 @@
+{# Fragment réutilisé pour le rendu initial du tableau de bord ET pour les
+   republications Mercure privées (topic "equipe/{id}", une seule équipe
+   destinataire donc pas de contrainte de personnalisation ici). #}
+{% if classementEquipe %}
+    <div class="mt-6 flex items-center justify-center gap-6 rounded-xl border border-[#c2b7a2] bg-[#f4e9d1] px-6 py-4">
+        <div>
+            <p class="text-2xl font-extrabold text-[#b5651d]">{{ classementEquipe.score }}</p>
+            <p class="text-xs uppercase tracking-widest text-[#8f8573]">points</p>
+        </div>
+        <div class="h-10 w-px bg-[#c2b7a2]"></div>
+        <div>
+            <p class="text-2xl font-extrabold text-[#9f8121]">{{ classementEquipe.rang }}<sup>e</sup></p>
+            <p class="text-xs uppercase tracking-widest text-[#8f8573]">rang</p>
+        </div>
+    </div>
+{% else %}
+    <p class="mt-4 text-sm text-[#766b5c]">
+        Aucune étape validée pour l'instant : validez-en une pour
+        apparaître au classement.
+    </p>
+{% endif %}
