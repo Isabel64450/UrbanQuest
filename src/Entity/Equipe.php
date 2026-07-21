@@ -40,10 +40,17 @@ class Equipe
     #[ORM\OneToMany(targetEntity: Progression::class, mappedBy: 'equipe', orphanRemoval: true)]
     private Collection $progressions;
 
+    /**
+     * @var Collection<int, TentativeValidation>
+     */
+    #[ORM\OneToMany(targetEntity: TentativeValidation::class, mappedBy: 'equipe', orphanRemoval: true)]
+    private Collection $tentativeValidations;
+
     public function __construct()
     {
         $this->joueurs = new ArrayCollection();
         $this->progressions = new ArrayCollection();
+        $this->tentativeValidations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -153,6 +160,36 @@ class Equipe
             // set the owning side to null (unless already changed)
             if ($progression->getEquipe() === $this) {
                 $progression->setEquipe(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TentativeValidation>
+     */
+    public function getTentativeValidations(): Collection
+    {
+        return $this->tentativeValidations;
+    }
+
+    public function addTentativeValidation(TentativeValidation $tentativeValidation): static
+    {
+        if (!$this->tentativeValidations->contains($tentativeValidation)) {
+            $this->tentativeValidations->add($tentativeValidation);
+            $tentativeValidation->setEquipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTentativeValidation(TentativeValidation $tentativeValidation): static
+    {
+        if ($this->tentativeValidations->removeElement($tentativeValidation)) {
+            // set the owning side to null (unless already changed)
+            if ($tentativeValidation->getEquipe() === $this) {
+                $tentativeValidation->setEquipe(null);
             }
         }
 
