@@ -1,0 +1,7 @@
+{# Item générique du fil d'activité : jamais de référence à une étape ou un
+   lieu, uniquement le nom de l'équipe et un message immersif neutre. #}
+<li class="rounded-xl border border-[#3e5c46]/40 bg-[#3e5c46]/10 px-4 py-3 text-sm text-[#3e5c46]">
+    <span class="font-semibold text-[#2a2015]">{{ activite.equipeNom }}</span>
+    a résolu une énigme !
+    <span class="ml-1 text-xs text-[#8f8573]">{{ activite.dateValidation|date('H:i:s') }}</span>
+</li>

@@ -17,7 +17,7 @@ use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-
+use Symfony\Component\RateLimiter\RateLimiterFactoryInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\UX\Turbo\TurboBundle;
@@ -31,7 +31,7 @@ class JeuController extends AbstractController
         private readonly TentativeValidationRepository $tentativeValidationRepository,
         private readonly EntityManagerInterface $entityManager,
         private readonly MercureNotificationService $mercureNotificationService,
-        /* private readonly RateLimiterFactoryInterface $validationEtapeLimiter, */
+        private readonly RateLimiterFactoryInterface $validationEtapeLimiter, 
         private readonly DetectionAnomalieService $detectionAnomalieService,
         private readonly LoggerInterface $antiTricheLogger,
     ) {
@@ -94,10 +94,10 @@ class JeuController extends AbstractController
         // Clé = équipe authentifiée : ralentit un script qui spammerait les
         // tentatives, sans jamais gêner un joueur qui enchaîne des essais
         // légitimes au rythme humain.
-       /*  if (!$this->validationEtapeLimiter->create((string) $equipe->getId())->consume()->isAccepted()) {
+        if (!$this->validationEtapeLimiter->create((string) $equipe->getId())->consume()->isAccepted()) {
             return $this->reponseStream('jeu/stream/_trop_de_tentatives.html.twig');
         }
- */
+ 
         $etapeCourante = $this->progressionService->getEtapeCourante($equipe);
 
         // Le serveur seul décide de l'étape courante : on refuse toute

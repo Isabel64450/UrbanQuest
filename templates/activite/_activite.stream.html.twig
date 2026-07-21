@@ -1,0 +1,7 @@
+{# Corps publié sur le topic Mercure public "activite" : un Turbo Stream
+   "update" qui remplace intégralement le contenu de #activite-fragment. #}
+<turbo-stream action="update" target="activite-fragment">
+    <template>
+        {% include 'activite/_fragment.html.twig' with { activites: activites } only %}
+    </template>
+</turbo-stream>

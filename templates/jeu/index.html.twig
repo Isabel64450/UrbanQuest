@@ -1,20 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello JeuController!{% endblock %}
+{% block title %}En jeu — UrbanQuest{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="mx-auto flex min-h-[calc(100vh-8rem)] max-w-screen-sm flex-col gap-6 px-6 py-8">
+        {% if etapeCourante %}
+            <div id="etape-titre" class="text-center">
+                <p class="text-sm font-semibold uppercase tracking-widest text-[#9f8121]" style="font-family: var(--player-font-heading);">Étape en cours</p>
+                <h1 class="mt-2 text-2xl font-extrabold text-[#2a2015]" style="font-family: var(--player-font-heading);">{{ etapeCourante.libelle }}</h1>
+            </div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/wamp64/www/urbanQuest/src/Controller/JeuController.php</code></li>
-        <li>Your template at <code>C:/wamp64/www/urbanQuest/templates/jeu/index.html.twig</code></li>
-    </ul>
-</div>
+            <div
+                id="zone-jeu"
+                data-controller="geolocalisation"
+                data-geolocalisation-url-value="{{ path('app_jeu_position') }}"
+                class="flex flex-1 flex-col items-center justify-center gap-4 rounded-2xl border border-[#c2b7a2] bg-[#fff6dd] p-8 text-center shadow-xl shadow-black/10"
+            >
+                <p class="text-sm text-[#766b5c]">Localisation en cours&hellip;</p>
+            </div>
+        {% else %}
+            <div class="flex flex-1 flex-col items-center justify-center gap-4 rounded-2xl border border-[#c2b7a2] bg-gradient-to-br from-[#935319]/20 via-[#fff6dd] to-[#f4e9d1] p-8 text-center shadow-xl shadow-black/10">
+                <p class="text-sm font-semibold uppercase tracking-widest text-[#9f8121]" style="font-family: var(--player-font-heading);">Bravo</p>
+                <h1 class="text-2xl font-extrabold text-[#2a2015]" style="font-family: var(--player-font-heading);">Parcours terminé !</h1>
+                <p class="text-sm text-[#766b5c]">Toutes les étapes de votre équipe ont été validées.</p>
+            </div>
+        {% endif %}
+    </div>
 {% endblock %}

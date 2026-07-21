@@ -1,0 +1,25 @@
+# Stockage par défaut (cache.rate_limiter, aliasé sur cache.app -> filesystem
+# ici, cf. config/packages/cache.yaml) : largement suffisant à l'échelle d'un
+# atelier / événement, pas besoin de Redis.
+framework:
+    rate_limiter:
+        # PIN équipe (JoueurAuthenticator) : clé = codeAcces soumis, pas l'IP
+        # (plusieurs équipes derrière la même box/4G ne doivent pas se
+        # bloquer mutuellement). 5 tentatives / 5 min : épuiser les 10 000
+        # combinaisons d'un PIN à 4 chiffres à ce rythme prendrait plusieurs
+        # jours, infaisable sur la durée d'un événement, tout en laissant une
+        # équipe qui se trompe 3-4 fois de suite réessayer sans blocage.
+        connexion_equipe:
+            policy: sliding_window
+            limit: 5
+            interval: '5 minutes'
+
+        # Validation de réponse d'étape (JeuController::valider) : clé =
+        # équipe authentifiée. 10 tentatives / 60 s : au-delà du rythme
+        # humain plausible (saisie clavier), assez bas pour ralentir un
+        # brute-force scripté sur une réponse courte, sans jamais gêner un
+        # joueur qui enchaîne plusieurs essais légitimes.
+        validation_etape:
+            policy: sliding_window
+            limit: 10
+            interval: '60 seconds'

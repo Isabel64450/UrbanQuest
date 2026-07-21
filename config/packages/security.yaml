@@ -7,14 +7,37 @@ security:
     providers:
         app_joueur_provider:
            id: App\Security\JoueurProvider
+        # used to reload user from session & other features (e.g. switch_user)
+        app_admin_provider:
+            entity:
+                class: App\Entity\Administrateur
+                property: email
 
     firewalls:
         dev:
             # Ensure dev tools and static assets are always allowed
             pattern: ^/(_profiler|_wdt|assets|build)/
             security: false
-        main:
+        admin:
             lazy: true
+            pattern: ^/admin
+            provider: app_admin_provider
+            form_login:
+                login_path: app_admin_login
+                check_path: app_admin_login
+                default_target_path: app_admin_parcours_index
+                enable_csrf: true
+            logout:
+                path: app_admin_logout
+                target: app_admin_login
+        jeu:
+            lazy: true
+            provider: app_joueur_provider
+            custom_authenticators:
+                - App\Security\JoueurAuthenticator
+            logout:
+                path: app_logout
+                target: app_rejoindre
             #provider: users_in_memory
 
             # Activate different ways to authenticate:
@@ -25,8 +48,9 @@ security:
 
     # Note: Only the *first* matching rule is applied
     access_control:
-         #- { path: ^/admin, roles: ROLE_ADMIN }
-         #- { path: ^/aquipe, roles: ROLE_JOUEUR }
+         - { path: ^/admin/connexion, roles: PUBLIC_ACCESS }
+         - { path: ^/admin, roles: ROLE_ADMIN }
+         - { path: ^/equipe, roles: ROLE_JOUEUR }
 
 when@test:
     security:

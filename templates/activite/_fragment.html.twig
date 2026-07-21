@@ -1,0 +1,14 @@
+{# Fragment réutilisé pour le rendu initial de /classement ET pour les
+   republications Mercure (voir MercureNotificationService::publierActivite).
+   Republié en entier à chaque validation plutôt qu'en ajoutant un item :
+   une mise à jour Turbo Stream "update" est idempotente (rejouable sans
+   dupliquer d'entrée), contrairement à un "append". #}
+{% if activites is empty %}
+    <p class="text-sm text-[#8f8573]">Aucune activité pour l'instant.</p>
+{% else %}
+    <ul class="flex flex-col gap-2">
+        {% for activite in activites %}
+            {% include 'activite/_item.html.twig' with { activite: activite } only %}
+        {% endfor %}
+    </ul>
+{% endif %}
