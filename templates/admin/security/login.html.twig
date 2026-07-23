@@ -1,0 +1,58 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Connexion administrateur — UrbanQuest{% endblock %}
+
+{% block body %}
+    <div class="flex min-h-[calc(100vh-10rem)] flex-col items-center justify-center">
+        <div class="w-full max-w-sm rounded-2xl border border-amber-900/40 bg-stone-900 p-8 shadow-xl shadow-black/40">
+            <p class="text-sm font-semibold uppercase tracking-widest text-amber-500">Espace réservé</p>
+            <h1 class="mt-2 text-2xl font-extrabold text-white">Connexion administrateur</h1>
+            <p class="mt-2 text-sm text-stone-400">
+                Cet espace est distinct de la connexion joueur : il est réservé
+                à la gestion des parcours et des étapes.
+            </p>
+
+            {% if erreur %}
+                <p class="mt-4 rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-300">
+                    {{ erreur.messageKey|trans(erreur.messageData, 'security') }}
+                </p>
+            {% endif %}
+
+            <form method="post" class="mt-6 flex flex-col gap-4">
+                <div>
+                    <label for="admin_email" class="block text-sm font-medium text-stone-300">Email</label>
+                    <input
+                        type="email"
+                        id="admin_email"
+                        name="_username"
+                        value="{{ dernierEmail }}"
+                        required
+                        autocomplete="email"
+                        class="mt-2 w-full rounded-xl border border-stone-700 bg-stone-950 px-4 py-3 text-base text-white placeholder-stone-500 focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40"
+                    >
+                </div>
+
+                <div>
+                    <label for="admin_password" class="block text-sm font-medium text-stone-300">Mot de passe</label>
+                    <input
+                        type="password"
+                        id="admin_password"
+                        name="_password"
+                        required
+                        autocomplete="current-password"
+                        class="mt-2 w-full rounded-xl border border-stone-700 bg-stone-950 px-4 py-3 text-base text-white placeholder-stone-500 focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40"
+                    >
+                </div>
+
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                <button
+                    type="submit"
+                    class="mt-2 inline-flex w-full items-center justify-center rounded-xl bg-amber-600 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-amber-600/30 transition hover:bg-amber-500 active:scale-[0.98]"
+                >
+                    Se connecter
+                </button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

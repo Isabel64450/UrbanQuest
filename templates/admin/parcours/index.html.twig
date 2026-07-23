@@ -1,0 +1,75 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Parcours — Administration UrbanQuest{% endblock %}
+
+{% block body %}
+    <div class="flex items-center justify-between">
+        <h1 class="text-2xl font-extrabold text-white">Parcours</h1>
+        <a
+            href="{{ path('app_admin_parcours_nouveau') }}"
+            class="inline-flex items-center justify-center rounded-xl bg-amber-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-amber-600/30 transition hover:bg-amber-500 active:scale-[0.98]"
+        >
+            + Nouveau parcours
+        </a>
+    </div>
+
+    <div class="mt-6 overflow-x-auto rounded-2xl border border-stone-800">
+        <table class="w-full min-w-[720px] divide-y divide-stone-800 text-left text-sm">
+            <thead class="bg-stone-900 text-stone-400">
+                <tr>
+                    <th class="px-4 py-3 font-medium">Nom</th>
+                    <th class="px-4 py-3 font-medium">Ville</th>
+                    <th class="px-4 py-3 font-medium">Statut</th>
+                    <th class="px-4 py-3 font-medium">Étapes</th>
+                    <th class="px-4 py-3 font-medium">Équipes ayant joué</th>
+                    <th class="px-4 py-3 font-medium">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-stone-800 bg-stone-950">
+                {% for ligne in lignes %}
+                    <tr>
+                        <td class="px-4 py-3 font-medium text-white">
+                            {{ ligne.parcours.nom }}
+                            {% if ligne.parcours.estArchive %}
+                                <span class="ml-2 rounded-full border border-stone-600 px-2 py-0.5 text-xs text-stone-400">archivé</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-4 py-3 text-stone-300">{{ ligne.parcours.ville }}</td>
+                        <td class="px-4 py-3">
+                            {% if ligne.parcours.statut.value == 'publie' %}
+                                <span class="rounded-full bg-emerald-500/10 px-2 py-0.5 text-xs font-medium text-emerald-400">Publié</span>
+                            {% else %}
+                                <span class="rounded-full bg-stone-500/10 px-2 py-0.5 text-xs font-medium text-stone-400">Brouillon</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-4 py-3 text-stone-300">{{ ligne.nombreEtapes }}</td>
+                        <td class="px-4 py-3 text-stone-300">{{ ligne.nombreEquipesAyantJoue }}</td>
+                        <td class="px-4 py-3">
+                            <div class="flex flex-wrap gap-2">
+                                <a href="{{ path('app_admin_parcours_editer', { id: ligne.parcours.id }) }}" class="rounded-lg border border-stone-700 px-3 py-1 text-xs font-medium text-stone-200 hover:border-amber-500 hover:text-amber-400">
+                                    Éditer
+                                </a>
+                                <form method="post" action="{{ path('app_admin_parcours_archiver', { id: ligne.parcours.id }) }}">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('archiver_parcours' ~ ligne.parcours.id) }}">
+                                    <button type="submit" class="rounded-lg border border-stone-700 px-3 py-1 text-xs font-medium text-stone-200 hover:border-amber-500 hover:text-amber-400">
+                                        {{ ligne.parcours.estArchive ? 'Désarchiver' : 'Archiver' }}
+                                    </button>
+                                </form>
+                                <form method="post" action="{{ path('app_admin_parcours_supprimer', { id: ligne.parcours.id }) }}" data-turbo-confirm="Supprimer définitivement ce parcours ?">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('supprimer_parcours' ~ ligne.parcours.id) }}">
+                                    <button type="submit" class="rounded-lg border border-red-900/60 px-3 py-1 text-xs font-medium text-red-400 hover:border-red-500 hover:bg-red-500/10">
+                                        Supprimer
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6" class="px-4 py-6 text-center text-stone-500">Aucun parcours pour l'instant.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#1c1917">
+        <title>{% block title %}Administration — UrbanQuest{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>🛠️</text></svg>">
+
+        <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
+        {{ importmap('app') }}
+    </head>
+    <body class="min-h-screen flex flex-col bg-stone-950 text-stone-100">
+        <header class="shrink-0 border-b border-amber-900/50 bg-stone-900">
+            <div class="mx-auto flex max-w-screen-lg items-center justify-between px-4 py-3">
+                <a href="{{ path('app_admin_parcours_index') }}" class="flex items-center gap-2 text-lg font-bold tracking-tight text-white">
+                    <span>🛠️</span>
+                    <span>UrbanQuest <span class="text-amber-500">Administration</span></span>
+                </a>
+                {% if app.user %}
+                    <a href="{{ path('app_admin_logout') }}" class="text-sm font-medium text-stone-400 hover:text-white">
+                        {{ app.user.email }} — Se déconnecter
+                    </a>
+                {% endif %}
+            </div>
+        </header>
+
+        <main class="flex-1">
+            <div class="mx-auto max-w-screen-lg px-4 py-6">
+                {% for type, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="mb-4 rounded-xl border px-4 py-3 text-sm font-medium {{ type == 'error' ? 'border-red-500/40 bg-red-500/10 text-red-300' : 'border-emerald-500/40 bg-emerald-500/10 text-emerald-300' }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+
+                {% block body %}{% endblock %}
+            </div>
+        </main>
+
+        <footer class="shrink-0 border-t border-stone-800 px-4 py-3 text-center text-xs text-stone-500">
+            UrbanQuest — Interface d'administration
+        </footer>
+    </body>
+</html>

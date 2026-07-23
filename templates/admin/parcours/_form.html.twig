@@ -1,0 +1,109 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}{{ parcours ? 'Éditer' : 'Nouveau' }} parcours — Administration UrbanQuest{% endblock %}
+
+{% block body %}
+    <a href="{{ path('app_admin_parcours_index') }}" class="text-sm text-stone-400 hover:text-white">&larr; Retour aux parcours</a>
+
+    <h1 class="mt-2 text-2xl font-extrabold text-white">
+        {{ parcours ? 'Éditer « ' ~ parcours.nom ~ ' »' : 'Nouveau parcours' }}
+    </h1>
+
+    <div class="mt-6 rounded-2xl border border-stone-800 bg-stone-900 p-6">
+        {{ form_start(form, { attr: { class: 'flex flex-col gap-4' } }) }}
+            <div>
+                {{ form_label(form.nom, null, { label_attr: { class: 'block text-sm font-medium text-stone-300' } }) }}
+                {{ form_widget(form.nom, { attr: { class: 'mt-2 w-full rounded-xl border border-stone-700 bg-stone-950 px-4 py-3 text-white focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40' } }) }}
+                {{ form_errors(form.nom) }}
+            </div>
+
+            <div>
+                {{ form_label(form.ville, null, { label_attr: { class: 'block text-sm font-medium text-stone-300' } }) }}
+                {{ form_widget(form.ville, { attr: { class: 'mt-2 w-full rounded-xl border border-stone-700 bg-stone-950 px-4 py-3 text-white focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40' } }) }}
+                {{ form_errors(form.ville) }}
+            </div>
+
+            <div>
+                {{ form_label(form.statut, null, { label_attr: { class: 'block text-sm font-medium text-stone-300' } }) }}
+                {{ form_widget(form.statut, { attr: { class: 'mt-2 w-full rounded-xl border border-stone-700 bg-stone-950 px-4 py-3 text-white focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40' } }) }}
+                {{ form_errors(form.statut) }}
+            </div>
+
+            <div>
+                {{ form_label(form.description, null, { label_attr: { class: 'block text-sm font-medium text-stone-300' } }) }}
+                {{ form_widget(form.description, { attr: { class: 'mt-2 w-full rounded-xl border border-stone-700 bg-stone-950 px-4 py-3 text-white focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40' } }) }}
+                {{ form_errors(form.description) }}
+            </div>
+
+            <button
+                type="submit"
+                class="mt-2 inline-flex w-full items-center justify-center rounded-xl bg-amber-600 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-amber-600/30 transition hover:bg-amber-500 active:scale-[0.98] sm:w-auto"
+            >
+                Enregistrer
+            </button>
+        {{ form_end(form) }}
+    </div>
+
+    {% if parcours %}
+        <div class="mt-8 flex items-center justify-between">
+            <h2 class="text-xl font-bold text-white">Étapes</h2>
+            <a
+                href="{{ path('app_admin_etape_nouveau', { parcours: parcours.id }) }}"
+                class="inline-flex items-center justify-center rounded-xl border border-amber-600 px-4 py-2 text-sm font-semibold text-amber-400 transition hover:bg-amber-600/10"
+            >
+                + Ajouter une étape
+            </a>
+        </div>
+
+        <div class="mt-4 overflow-x-auto rounded-2xl border border-stone-800">
+            <table class="w-full min-w-[640px] divide-y divide-stone-800 text-left text-sm">
+                <thead class="bg-stone-900 text-stone-400">
+                    <tr>
+                        <th class="px-4 py-3 font-medium">Ordre</th>
+                        <th class="px-4 py-3 font-medium">Libellé</th>
+                        <th class="px-4 py-3 font-medium">Points</th>
+                        <th class="px-4 py-3 font-medium">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-stone-800 bg-stone-950">
+                    {% for etape in parcours.etapes %}
+                        <tr>
+                            <td class="px-4 py-3 text-stone-300">{{ etape.ordre }}</td>
+                            <td class="px-4 py-3 font-medium text-white">{{ etape.libelle }}</td>
+                            <td class="px-4 py-3 text-stone-300">{{ etape.points }}</td>
+                            <td class="px-4 py-3">
+                                <div class="flex flex-wrap items-center gap-2">
+                                    <form method="post" action="{{ path('app_admin_etape_monter', { parcours: parcours.id, etape: etape.id }) }}">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('reordonner_etape' ~ etape.id) }}">
+                                        <button type="submit" class="rounded-lg border border-stone-700 px-2 py-1 text-xs text-stone-200 hover:border-amber-500 hover:text-amber-400" {{ loop.first ? 'disabled' : '' }}>
+                                            &uarr;
+                                        </button>
+                                    </form>
+                                    <form method="post" action="{{ path('app_admin_etape_descendre', { parcours: parcours.id, etape: etape.id }) }}">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('reordonner_etape' ~ etape.id) }}">
+                                        <button type="submit" class="rounded-lg border border-stone-700 px-2 py-1 text-xs text-stone-200 hover:border-amber-500 hover:text-amber-400" {{ loop.last ? 'disabled' : '' }}>
+                                            &darr;
+                                        </button>
+                                    </form>
+                                    <a href="{{ path('app_admin_etape_editer', { parcours: parcours.id, etape: etape.id }) }}" class="rounded-lg border border-stone-700 px-3 py-1 text-xs font-medium text-stone-200 hover:border-amber-500 hover:text-amber-400">
+                                        Éditer
+                                    </a>
+                                    <form method="post" action="{{ path('app_admin_etape_supprimer', { parcours: parcours.id, etape: etape.id }) }}" data-turbo-confirm="Supprimer définitivement cette étape ?">
+                                        <input type="hidden" name="_token" value="{{ csrf_token('supprimer_etape' ~ etape.id) }}">
+                                        <button type="submit" class="rounded-lg border border-red-900/60 px-3 py-1 text-xs font-medium text-red-400 hover:border-red-500 hover:bg-red-500/10">
+                                            Supprimer
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="4" class="px-4 py-6 text-center text-stone-500">Aucune étape pour l'instant.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+{% endblock %}
