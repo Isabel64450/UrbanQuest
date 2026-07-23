@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Parcours;
 use App\Form\ParcoursType;
+use App\Repository\AdministrateurRepository;
 use App\Repository\ParcoursRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -138,4 +139,10 @@ final class ParcoursController extends AbstractController
 
         return $this->redirectToRoute('app_admin_parcours_index');
     }
+
+
+
+
+
+
 }

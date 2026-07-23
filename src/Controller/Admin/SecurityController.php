@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Repository\AdministrateurRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -18,6 +19,8 @@ class SecurityController extends AbstractController
         ]);
     }
 
+
+    
 
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void

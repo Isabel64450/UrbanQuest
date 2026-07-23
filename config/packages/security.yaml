@@ -23,14 +23,14 @@ security:
             pattern: ^/admin
             provider: app_admin_provider
             form_login:
-                login_path: app_login
-                check_path: app_login
+                login_path: app_admin_login
+                check_path: app_admin_login
                 default_target_path: app_admin_parcours_index
                 enable_csrf: true
             logout:
-                path: app_logout
+                path: app_admin_logout
                 # where to redirect after logout
-                # target: app_any_route
+                target: app_admin_login
         jeu:
             lazy: true
             provider: app_joueur_provider
