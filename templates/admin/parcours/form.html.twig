@@ -44,11 +44,11 @@
         {{ form_end(form) }}
     </div>
 
-    {% if parcours %}
+    {% if parcours.id %}
         <div class="mt-8 flex items-center justify-between">
             <h2 class="text-xl font-bold text-white">Étapes</h2>
             <a
-                href="{{ path('app_admin_etape_nouveau', { parcours: parcours.id }) }}"
+                href="{{ path('app_admin_etape_new', { parcours: parcours.id }) }}"
                 class="inline-flex items-center justify-center rounded-xl border border-amber-600 px-4 py-2 text-sm font-semibold text-amber-400 transition hover:bg-amber-600/10"
             >
                 + Ajouter une étape

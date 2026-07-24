@@ -1,0 +1,80 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}{{ etape ? 'Éditer' : 'Nouvelle' }} étape — Administration UrbanQuest{% endblock %}
+
+{% block body %}
+    <a href="{{ path('app_admin_parcours_edit', { id: parcours.id }) }}" class="text-sm text-stone-400 hover:text-white">&larr; Retour à « {{ parcours.nom }} »</a>
+
+    <h1 class="mt-2 text-2xl font-extrabold text-white">
+        {{ etape ? 'Éditer « ' ~ etape.libelle ~ ' »' : 'Nouvelle étape' }}
+    </h1>
+
+    <div class="mt-6 rounded-2xl border border-stone-800 bg-stone-900 p-6">
+        {{ form_start(form, { attr: { class: 'flex flex-col gap-4' } }) }}
+            <div>
+                {{ form_label(form.libelle, null, { label_attr: { class: 'block text-sm font-medium text-stone-300' } }) }}
+                {{ form_widget(form.libelle, { attr: { class: 'mt-2 w-full rounded-xl border border-stone-700 bg-stone-950 px-4 py-3 text-white focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40' } }) }}
+                {{ form_errors(form.libelle) }}
+            </div>
+
+            <div>
+                {{ form_label(form.consigne, null, { label_attr: { class: 'block text-sm font-medium text-stone-300' } }) }}
+                {{ form_widget(form.consigne, { attr: { class: 'mt-2 w-full rounded-xl border border-stone-700 bg-stone-950 px-4 py-3 text-white focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40' } }) }}
+                {{ form_errors(form.consigne) }}
+            </div>
+
+            <div>
+                <label class="block text-sm font-medium text-stone-300">Emplacement (cliquez sur la carte pour placer ou déplacer le marqueur)</label>
+                <div
+                    class="mt-2 overflow-hidden rounded-xl border border-stone-700"
+                    data-controller="carte-selecteur"
+                    data-carte-selecteur-latitude-value="{{ etape ? etape.latitude : 0 }}"
+                    data-carte-selecteur-longitude-value="{{ etape ? etape.longitude : 0 }}"
+                >
+                    <div data-carte-selecteur-target="carte" class="h-80 w-full"></div>
+                </div>
+                {{ form_widget(form.latitude, { attr: { 'data-carte-selecteur-target': 'latitude' } }) }}
+                {{ form_widget(form.longitude, { attr: { 'data-carte-selecteur-target': 'longitude' } }) }}
+                {{ form_errors(form.latitude) }}
+                {{ form_errors(form.longitude) }}
+            </div>
+
+            <div>
+                {{ form_label(form.rayonValidationMetres, null, { label_attr: { class: 'block text-sm font-medium text-stone-300' } }) }}
+                {{ form_widget(form.rayonValidationMetres, { attr: { class: 'mt-2 w-full rounded-xl border border-stone-700 bg-stone-950 px-4 py-3 text-white focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40' } }) }}
+                {{ form_errors(form.rayonValidationMetres) }}
+            </div>
+
+            <div>
+                {{ form_label(form.reponseAttendue, null, { label_attr: { class: 'block text-sm font-medium text-stone-300' } }) }}
+                {{ form_widget(form.reponseAttendue, { attr: { class: 'mt-2 w-full rounded-xl border border-stone-700 bg-stone-950 px-4 py-3 text-white focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40' } }) }}
+                {{ form_errors(form.reponseAttendue) }}
+            </div>
+
+            <div>
+                {{ form_label(form.nombreEchecsAvantIndice, null, { label_attr: { class: 'block text-sm font-medium text-stone-300' } }) }}
+                {{ form_widget(form.nombreEchecsAvantIndice, { attr: { class: 'mt-2 w-full rounded-xl border border-stone-700 bg-stone-950 px-4 py-3 text-white focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40' } }) }}
+                {{ form_errors(form.nombreEchecsAvantIndice) }}
+            </div>
+
+            <div>
+                {{ form_label(form.indice, null, { label_attr: { class: 'block text-sm font-medium text-stone-300' } }) }}
+                {{ form_widget(form.indice, { attr: { class: 'mt-2 w-full rounded-xl border border-stone-700 bg-stone-950 px-4 py-3 text-white focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40' } }) }}
+                {{ form_errors(form.indice) }}
+            </div>
+
+            <div>
+                {{ form_label(form.points, null, { label_attr: { class: 'block text-sm font-medium text-stone-300' } }) }}
+                {{ form_widget(form.points, { attr: { class: 'mt-2 w-full rounded-xl border border-stone-700 bg-stone-950 px-4 py-3 text-white focus:border-amber-500 focus:outline-none focus:ring-2 focus:ring-amber-500/40' } }) }}
+                {{ form_errors(form.points) }}
+            </div>
+
+            <button
+                type="submit"
+                class="mt-2 inline-flex w-full items-center justify-center rounded-xl bg-amber-600 px-6 py-3 text-base font-semibold text-white shadow-lg shadow-amber-600/30 transition hover:bg-amber-500 active:scale-[0.98] sm:w-auto"
+            >
+                Enregistrer
+            </button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

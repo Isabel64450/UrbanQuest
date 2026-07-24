@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Etape index{% endblock %}
+
+{% block body %}
+    <h1>Etape index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Libelle</th>
+                <th>Consigne</th>
+                <th>Ordre</th>
+                <th>Latitude</th>
+                <th>Longitude</th>
+                <th>RayonValidationMetres</th>
+                <th>ReponseAttendue</th>
+                <th>Points</th>
+                <th>NombreEchecsAvantIndice</th>
+                <th>Indice</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for etape in etapes %}
+            <tr>
+                <td>{{ etape.id }}</td>
+                <td>{{ etape.libelle }}</td>
+                <td>{{ etape.consigne }}</td>
+                <td>{{ etape.ordre }}</td>
+                <td>{{ etape.latitude }}</td>
+                <td>{{ etape.longitude }}</td>
+                <td>{{ etape.rayonValidationMetres }}</td>
+                <td>{{ etape.reponseAttendue }}</td>
+                <td>{{ etape.points }}</td>
+                <td>{{ etape.nombreEchecsAvantIndice }}</td>
+                <td>{{ etape.indice }}</td>
+                <td>
+                    <a href="{{ path('app_etape_show', {'id': etape.id}) }}">show</a>
+                    <a href="{{ path('app_etape_edit', {'id': etape.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="12">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_etape_new') }}">Create new</a>
+{% endblock %}

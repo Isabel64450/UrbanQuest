@@ -149,14 +149,14 @@ class Etape
         return $this;
     }
 
-    public function getResponseAttendue(): ?string
+    public function getReponseAttendue(): ?string
     {
         return $this->reponseAttendue;
     }
 
-    public function setResponseAttendue(?string $responseAttendue): static
+    public function setReponseAttendue(?string $reponseAttendue): static
     {
-        $this->reponseAttendue = $responseAttendue;
+        $this->reponseAttendue = $reponseAttendue;
 
         return $this;
     }

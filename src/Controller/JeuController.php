@@ -239,12 +239,12 @@ class JeuController extends AbstractController
      */
     private function reponseEstCorrecte(Etape $etape, string $reponseSaisie): bool
     {
-        if (null === $etape->getResponseAttendue()) {
+        if (null === $etape->getReponseAttendue()) {
             return true;
         }
 
         return '' !== $reponseSaisie
-            && mb_strtolower($reponseSaisie) === mb_strtolower(trim($etape->getResponseAttendue()));
+            && mb_strtolower($reponseSaisie) === mb_strtolower(trim($etape->getReponseAttendue()));
     }
 
     private function creerTentative(

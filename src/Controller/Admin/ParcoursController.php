@@ -67,7 +67,7 @@ final class ParcoursController extends AbstractController
         }
 
         return $this->render('admin/parcours/form.html.twig', [
-            'parcour' => $parcours,
+            'parcours' => $parcours,
             'form' => $form,
         ]);
     }
@@ -92,7 +92,7 @@ final class ParcoursController extends AbstractController
         }
 
         return $this->render('admin/parcours/form.html.twig', [
-            'parcour' => $parcours,
+            'parcours' => $parcours,
             'form' => $form,
         ]);
     }
